@@ -228,3 +228,9 @@ knitr::include_graphics(mac_screenshots[22:23])
 ```{r, include=FALSE}
 knitr::opts_chunk$set(out.width = NULL, out.extra = NULL)
 ```
+
+## Session Info
+\scriptsize
+```{r session}
+sessionInfo()
+```

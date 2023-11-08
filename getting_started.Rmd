@@ -5,7 +5,7 @@ author: |
   | Professor, Division of Infectious Disease
   | Director, Center for Data Science
   | Rutgers University -- New Jersey Medical School
-date: "10/30/2023"
+date: "11/13/2023"
 header-includes:
    - \usepackage{amsmath}
 output: 
@@ -249,7 +249,7 @@ installed.packages()
 It is helpful to keep a list of all the packages you need for your work in a script because if you need to perform a fresh install of R, you can re-install all your packages by simply running a script.
 
 ## Session Info
-```{r session}
 \scriptsize
+```{r session}
 sessionInfo()
 ```
