@@ -11,7 +11,7 @@ These are the materials for our Fall 2023 R Tutorial. Hopefully they are helpful
     + https://mdsr-book.github.io/mdsr2e/
     + https://r4ds.had.co.nz
 * Lecture times and (virtual) location:
-    + Class will occur Mondays at 9pm-1am Mountain Daylight Time (9:30am IST, ) at the following link: TBD
+    + Class will occur Mondays at 9pm-1am Mountain Daylight Time (9:30am IST, 11am Jakarta, 12pm Philippines) at the following link: TBD
     + Lecture recordings will be posted here on the GitHub page in case you miss one!
 * Communication: if you have questions or concerns, please email me: <w.evan.johnson@rutgers.edu>
 * GitHub materials for the course:
