@@ -1,5 +1,3 @@
-# 2023_11_R_tutorial
-Github page and resources for R tutorial, November 2023
 # RePORT-RICC Young Investigator R Tutorial (Fall 2023)
 
 These are the materials for our Fall 2023 R Tutorial. Hopefully they are helpful!
@@ -15,7 +13,7 @@ These are the materials for our Fall 2023 R Tutorial. Hopefully they are helpful
 * Lecture times and (virtual) location:
     + Class will occur Mondays at 9pm-1am Mountain Daylight Time (9:30am IST, ) at the following link: TBD
     + Lecture recordings will be posted here on the GitHub page in case you miss one!
-* Communication: if you have questions or concerns, please email me: [w.evan.johnson@rutgers.edu]<w.evan.johnson@rutgers.edu>
+* Communication: if you have questions or concerns, please email me: <w.evan.johnson@rutgers.edu>
 * GitHub materials for the course:
     + All materials for this course will be posted on the course GitHub page: https://github.com/wevanjohnson/2023_11_R_tutorial
     + You obviously have this since you are here!
