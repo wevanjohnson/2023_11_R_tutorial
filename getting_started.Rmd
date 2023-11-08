@@ -42,7 +42,7 @@ The __interactivity__ of R (more later), is an indispensable feature in data sci
 However, like in other programming languages, you can save your work as scripts that can be easily executed at any moment. These scripts serve as a record of the analysis you performed, a key feature that facilitates reproducible work. 
 
 ## Why R?
-If you are an expert programmer, you should not expect R to follow the conventions you are used to since you will be disappointed. If you are patient, you will come to appreciate the unequal power of R when it comes to data analysis and, specifically, data visualization.
+If you are an expert programmer, you should not expect R to follow the conventions you are used to. If you are patient, you will come to appreciate the unequal power of R when it comes to data analysis and, specifically, data visualization.
 
 ![](img/data_visualize.png){height=65%}
 
@@ -201,25 +201,25 @@ R makes it very easy to install packages from within R. For example, to install 
 install.packages("dslabs")
 ```
 
-## Installing R packages
-In RStudio, you can navigate to the __Tools__ tab and select install packages. We can then load the package into our R sessions using the `library` function:
-
-```{r}
-library(dslabs)
-```
-
 We can install more than one package at once by feeding a character vector to this function:
 
 ```{r, eval=FALSE, echo=TRUE}
 install.packages(c("tidyverse", "dslabs"))
 ```
 
-## Installing R packages
-Note that installing __tidyverse__ actually installs several packages. This commonly occurs when a package has **dependencies**, or uses functions from other packages. When you load a package using `library`, you also load its dependencies.
+## Installing R packages (Windows)
+If you are using Windows, you may get a warning that says:
+
+`WARNING: Rtools is required to build R packages but is not currently installed.` 
+
+**Rtools** is a toolchain bundle used for building R packages from source (those that need compilation of C/C++ or Fortran code) and to build R itself from source. We won't cover this here, but for a detailed step-by-step instruction tutorial can be found by clicking the following link: 
+
+\center \footnotesize
+[https://jtleek.com/modules/01_DataScientistToolbox/02_10_rtools/](https://jtleek.com/modules/01_DataScientistToolbox/02_10_rtools/)
 
 
 ## Installing R packages
-You can also install packages using RStudio in the following way: 
+In RStudio, you can navigate to the __Tools__ tab and select install packages in the following way: 
 
 ```{r, echo=FALSE, out.width = "100%",  out.extra=""}
 knitr::include_graphics(screenshots[35]) 
@@ -227,17 +227,28 @@ knitr::include_graphics(screenshots[35])
 
 
 ## Installing R packages
-One advantage of using RStudio is that it auto-completes package names once you start typing, which is helpful when you do not remember the exact spelling of the package:
+RStudio will auto-complete package names, which is helpful when you do not remember the exact spelling of the package:
 
 ```{r, echo=FALSE, out.width = "100%",  out.extra=""}
 knitr::include_graphics(screenshots[36]) 
 ```
 
 ## Installing R packages
-Once packages are installed, you can load them into R and you do not need to install them again, unless you install a fresh version of R. Remember packages are installed in R not RStudio.
+Remember packages are installed in R not RStudio.
+
+Also note that installing __tidyverse__ actually installs several packages. This commonly occurs when a package has **dependencies**, or uses functions from other packages. When you load a package using `library`, you also load its dependencies.
+
+## Installing R packages
+Once packages are installed, you can load them into R using the `library` function: 
+```{r}
+library(dslabs)
+```
 
 As you go through this tutorial, you will see that we load packages without installing them. This is because once you install a package, it remains installed and only needs to be loaded with `library`. The package remains loaded until we quit the R session. If you try to load a package and get an error, it probably means you need to install it first. 
+
 ## Installing R packages
+**Pro Tip:** It is helpful to keep a list of all the packages you need for your work in a script because if you need to perform a fresh install of R, you can re-install all your packages by simply running a script.
+
 You can see all the packages you have installed using the following function:
 
 ```{r, eval=FALSE, echo=TRUE}
@@ -245,11 +256,9 @@ installed.packages()
 ```
 
 
-## Installing R packages
-It is helpful to keep a list of all the packages you need for your work in a script because if you need to perform a fresh install of R, you can re-install all your packages by simply running a script.
-
 ## Session Info
-\scriptsize
+The `sessionInfo()` function reports information about your R session, including the OS and loaded packages. Its always good to end your analyses and reports with this function for reproducibility. 
+\tiny
 ```{r session}
 sessionInfo()
 ```
