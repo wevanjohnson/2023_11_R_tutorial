@@ -17,3 +17,14 @@ These are the materials for our Fall 2023 R Tutorial. Hopefully they are helpful
 * GitHub materials for the course:
     + All materials for this course will be posted on the course GitHub page: https://github.com/wevanjohnson/2023_11_R_tutorial
     + You obviously have this since you are here!
+* Schedule:
+
+| Day         | Topics                                |
+| :-----------| :-----------------------------------: |
+| Pre-meeting | Installing R, RStudio, and R Packages |
+| Day 1       | Introduction to R/Rstudio, R basics   |
+| Day 2       | R Markdown, Programming basics        |
+| Day 3       | The tidyverse, data structures        |
+| Day 4       | Data visualization with ggplot2       |
+| Day 5       | R Packages, Bioinformatics, Shiny     |
+
