@@ -20,11 +20,11 @@ These are the materials for our Fall 2023 R Tutorial. Hopefully they are helpful
 * Schedule:
 
 | Day         | Topics                                |
-| :-----------| :-----------------------------------: |
-| Pre-meeting | Installing R, RStudio, and R Packages |
-| Day 1       | Introduction to R/Rstudio, R basics   |
-| Day 2       | R Markdown, Programming basics        |
+| :-----------| :------------------------------------ |
+| Pre-meeting | Installing R, RStudio, and R packages |
+| Day 1       | Introduction to R/RStudio, R basics   |
+| Day 2       | R Markdown, programming basics        |
 | Day 3       | The tidyverse, data structures        |
 | Day 4       | Data visualization with ggplot2       |
-| Day 5       | R Packages, Bioinformatics, Shiny     |
+| Day 5       | R Packages, bioinformatics, shiny     |
 
