@@ -16,6 +16,7 @@ editor_options:
 tables: true
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
@@ -308,7 +309,6 @@ server <- function(input, output){
 shinyApp(server = server, ui = ui)
 ```
 
-
 ## Multi-file apps: 
 Now lets get more organized, create a **ui.R** file
 \footnotesize
@@ -346,7 +346,6 @@ source("server.R")
 
 shinyApp(server = server, ui = ui)
 ```
-
 
 ## Building apps in R packages: 
 In an R package, create an `inst/shiny` directory and place the `Shiny` code there. Also:
