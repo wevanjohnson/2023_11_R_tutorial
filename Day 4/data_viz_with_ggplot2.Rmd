@@ -22,30 +22,54 @@ library(tidyverse)
 img_path <- "img/"
 ```
 
-Exploratory data visualization is perhaps the greatest strength of R. One can quickly go from idea to data to plot with a unique balance of flexibility and ease. For example, Excel may be easier than R for some plots, but it is nowhere near as flexible. D3.js may be more flexible and powerful than R, but it takes much longer to generate a plot.
+## Data Visualization with R
+Exploratory data visualization is perhaps the greatest strength of R. One can quickly go from idea to data to plot with a unique balance of flexibility and ease. 
 
-Throughout the book, we will be creating plots using the __ggplot2__^[https://ggplot2.tidyverse.org/] package. 
+For example, Excel may be easier than R for some plots, but it is nowhere near as flexible. D3.js may be more flexible and powerful than R, but it takes much longer to generate a plot.
+
+## Data Visualization with `ggplot2`
+We will be creating plots using the __ggplot2__^[https://ggplot2.tidyverse.org/] package. 
 
 ```{r, message=FALSE, warning=FALSE}
 library(dplyr)
 library(ggplot2)
 ```
 
-Many other approaches are available for creating plots in R. In fact, the plotting capabilities that come with a basic installation of R are already quite powerful. There are also other packages for creating graphics such as __grid__ and __lattice__. We chose to use __ggplot2__ in this book because it breaks plots into components in a way that permits beginners to create relatively complex and aesthetically pleasing plots using syntax that is intuitive and comparatively easy to remember. 
+Many other approaches are available for creating plots in R. In fact, the plotting capabilities that come with a basic installation of R are already quite powerful. There are also other packages for creating graphics such as __grid__ and __lattice__. 
 
-One reason __ggplot2__ is generally more intuitive for beginners is that it uses a grammar of graphics^[http://www.springer.com/us/book/9780387245447], the _gg_ in __ggplot2__. This is analogous to the way learning grammar can help a beginner construct hundreds of different sentences by learning just a handful of verbs, nouns and adjectives without having to memorize each specific sentence. Similarly, by learning a handful of __ggplot2__ building blocks and its grammar, you will be able to create hundreds of different plots. 
+We chose to use __ggplot2__ because it breaks plots into components in a way that permits beginners to create relatively complex and aesthetically pleasing plots using syntax that is intuitive and comparatively easy to remember. 
 
+## Data Visualization with `ggplot2`
+One reason __ggplot2__ is generally more intuitive for beginners is that it uses a __grammar of graphics__^[http://www.springer.com/us/book/9780387245447], the _gg_ in __ggplot2__. 
+
+This is analogous to the way learning grammar can help a beginner construct hundreds of different sentences by learning just a handful of verbs, nouns and adjectives without having to memorize each specific sentence. Similarly, by learning a handful of __ggplot2__ building blocks and its grammar, you will be able to create hundreds of different plots. 
+
+## Data Visualization with `ggplot2`
 Another reason __ggplot2__ is easy for beginners is that its default behavior is carefully chosen to satisfy the great majority of cases and is visually pleasing. As a result, it is possible to create informative and elegant graphs with relatively simple and readable code.
 
-One limitation is that __ggplot2__ is designed to work exclusively with data tables in tidy format (where rows are observations and columns are variables). However, a substantial percentage of datasets that beginners work with are in, or can be converted into, this format. An advantage of this approach is that, assuming that our data is tidy, __ggplot2__ simplifies plotting code and the learning of grammar for a variety of plots. 
+One limitation is that __ggplot2__ is designed to work exclusively with data tables in tidy format (where rows are observations and columns are variables). 
 
-To use __ggplot2__  you will have to learn several functions and arguments. These are hard to memorize, so we highly recommend you have the ggplot2 cheat sheet  handy. You can get a copy here: [https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) or simply perform an internet search for "ggplot2 cheat sheet".
+However, a substantial percentage of datasets that beginners work with are in, or can be converted into, this format. 
 
-## The components of a graph
+An advantage of this approach is that, assuming that our data is tidy, __ggplot2__ simplifies plotting code and the learning of grammar for a variety of plots. 
 
-We will construct a graph that summarizes the US murders dataset that looks like this:
+## Data Visualization with `ggplot2`
+To use __ggplot2__  you will have to learn several functions and arguments. These are hard to memorize, so we highly recommend you have the ggplot2 cheat sheet  handy. 
 
-```{r ggplot-example-plot, echo=FALSE}
+You can get a copy with an internet search for "ggplot2 cheat sheet" or by clinking here: 
+
+[https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) 
+
+## Data Visualization with `ggplot2`
+![](img/ggplot2-cheatsheeta.png)
+
+## Data Visualization with `ggplot2`
+![](img/ggplot2-cheatsheetb.png)
+
+
+## The Components of a Graph
+We will construct the following graph for the US murders dataset:
+```{r ggplot-example-plot, echo=FALSE, out.width="95%"}
 library(dslabs)
 data(murders)
 library(ggthemes)
@@ -68,17 +92,21 @@ murders %>% ggplot(aes(x = population/10^6, y = total, label = abb)) +
   theme_economist()
 ```
 
-We can clearly see how much states vary across population size and the total number of murders. Not surprisingly, we also see a clear relationship between murder totals and population size. A state falling on the dashed grey line has the same murder rate as the US average. The four geographic regions are denoted with color, which depicts how most southern states have murder rates above the average. 
+## The Components of a Graph
+
+We can clearly see a relationship between murder totals and population size. A state falling on the dashed grey line has the same murder rate as the US average. The four geographic regions are denoted with color, which depicts how most southern states have murder rates above the average. 
 
 This data visualization shows us pretty much all the information in the data table. The code needed to make this plot is relatively simple. We will learn to create the plot part by part. 
 
-The first step in learning __ggplot2__ is to be able to break a graph apart into components. Let's break down the plot above and introduce some of the __ggplot2__ terminology. The main three components to note are:
+## The Components of a Graph
+The first step in learning `ggplot2` is to be able to break a graph apart into components. The main three components to note are:
  
 * __Data__: The US murders data table is being summarized. We refer to this as the __data__ component. 
 *  __Geometry__: The plot above is a scatterplot. This is referred to as the 
 __geometry__ component. Other possible geometries are barplot, histogram, smooth densities, qqplot, and boxplot. We will learn more about these in the Data Visualization part of the book.
 * __Aesthetic mapping__: The plot uses several visual cues to represent the information provided by the dataset. The two most important cues in this plot are the point positions on the x-axis and y-axis, which represent population size and the total number of murders, respectively. Each point represents a different observation, and we _map_ data about these observations to visual cues like x- and y-scale. Color is another visual cue that we map to region. We refer to this as the __aesthetic mapping__ component. How we define the mapping depends on what __geometry__ we are using. 
 
+## The Components of a Graph
 We also note that:
 
 * The points are labeled with the state abbreviations.
@@ -87,6 +115,7 @@ We also note that:
 
 We will now construct the plot piece by piece.
 
+## The Components of a Graph
 We start by loading the dataset:
 
 ```{r}
