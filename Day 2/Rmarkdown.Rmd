@@ -16,8 +16,6 @@ editor_options:
 tables: true
 ---
 
-# Communicating Science
-
 ## Communicating Science
 
 Effective science communicators educate non-specialist audiences about scientific topics, issues, and debates in ways that are informative, accessible, and empowering. \vskip .1in
@@ -75,9 +73,7 @@ Keep the following points in mind:
 3. Use high-resolution graphics
 4. Format your graphics and include labels, legends, and captions
 
-# RMarkdown
-
-## Reproducible reports
+## Reproducible Reports (RMarkdown)
 
 The final product of a data analysis project is often a report: scientific publications, news articles, an analysis report for your company, or lecture notes for a class. \vskip .1 in
 
@@ -93,7 +89,7 @@ Situations like these are common for a data scientist.
 
 ## R markdown
 
-R markdown is a format for __literate programming__ documents. \vskip .2in
+R markdown is a format for **literate programming** documents. \vskip .2in
 
 It is based on __markdown__, a markup language that is widely used to generate html pages. \vskip .2in 
 
@@ -205,9 +201,9 @@ We use the __knitR__ package to compile R markdown documents. The specific funct
 
 
 ## Other options
-We will explore other R Markdown options:  headers, tabsets, and latex equations in class and in your Extra Practice. 
+We will explore other R Markdown options:  headers, tabsets, and latex equations in class and in your Exercises. 
 \vskip .2 in
-\underline{Note:} From now on, all R-based Extra Practive will be preferably finished using an R Markdown document (uploaded to GitHub). Your document should include headers, descriptive text, R code, and  plots/figures! 
+\underline{Note:} From now on, all R-based Exercises should preferably be done using an R Markdown document. Your document should include headers, descriptive text, R code, and  plots/figures! 
 
  
 ## More on R markdown

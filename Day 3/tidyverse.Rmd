@@ -37,7 +37,7 @@ head(murders)
 ## Not tidy format (fertility)
 
 The following dataset is organized, but not tidy. Why?
-\tiny
+\scriptsize
 ```{r fertility_not_tidy}
 path <- system.file("extdata", package = "dslabs")
 filename <- file.path(path, "fertility-two-countries-example.csv")
@@ -50,11 +50,12 @@ select(wide_data, country, `1960`:`1962`) %>% as.data.frame()
 ## Tidy format (fertility)
 
 Here is how we would organize these data to be tidy:
-\tiny
+\footnotesize
 ```{r fertility_tidy}
 data("gapminder")
 tidy_data <- gapminder %>%
-  filter(country %in% c("South Korea", "Germany") & !is.na(fertility)) %>%
+  filter(country %in% c("South Korea", "Germany") & 
+           !is.na(fertility)) %>%
   select(country, year, fertility)
 head(tidy_data, 6)
 ```
@@ -139,7 +140,7 @@ filter(
 )
 ```
 \normalsize
-This is fairly concise but a little confusing. Is there a better, clearer way?
+This is fairly concise but a little confusing. Is there a better way?
 
 ## Pipes
 
@@ -153,7 +154,7 @@ of R version 4.1.0, you can also use \|\>.
 
 The pipe is a combination of characters that when used properly does two
 things: *It shortens and simplifies the code* and it makes the code
-intuitive to read
+intuitive to read.
 
 ## Pipes
 
@@ -195,7 +196,7 @@ We know about the **order** and **sort** functions, but for ordering
 entire tables, the **arrange** function is much more useful. For
 example, here we order the states murder rate:
 
-\small
+\footnotesize
 ```{r arrange_1}
 murdersRate %>%
   arrange(rate) %>%
@@ -207,7 +208,7 @@ Note that the default behavior is to order in ascending order. The
 function **desc** transforms a vector so that it is in descending order.
 To sort the table in descending order, we can type:
 
-\small
+\footnotesize
 ```{r arrange_2}
 murdersRate %>%
   arrange(desc(rate)) %>%
@@ -260,7 +261,7 @@ heights %>%
 
 ## More on the tidyverse
 
-In your homework you will explore a few more tidyverse operations, including the __inner_join__, __left_join__, __pull__, __dot__, and __do__ functions, and the __tidyr__ package.
+In as you learn more about the tidyverse you will learn a few more tidyverse operations, including the __inner_join__, __left_join__, __pull__, __dot__, and __do__ functions, and the __tidyr__ package.
 
 ## Session info
 \tiny

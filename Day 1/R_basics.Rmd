@@ -673,7 +673,7 @@ __Matrices__ are another type of object that are common in R. Matrices are simil
 For this reason data frames are much more useful for storing data, since we can have characters, factors, and numbers in them. 
 
 ## Matrices 
-Yet matrices have a major advantage over data frames: we can perform matrix algebra operations, a powerful type of mathematical technique. We do not describe these operations in this book, but much of what happens in the background when you perform a data analysis involves matrices. We will cover matematical computions on matrices in more detail later!
+Yet matrices have a major advantage over data frames: we can perform matrix algebra operations, a powerful type of mathematical technique. We will cover matematical computions on matrices in more detail later!
 
 ## Matrices 
 We can define a matrix using the `matrix` function. We need to specify the number of rows and columns.
@@ -1363,7 +1363,7 @@ If rather than an index we want a logical that tells us whether or not each elem
 c("Boston", "Dakota", "Washington") %in% murders$state
 ```
 
-Note that we will be using `%in%` often throughout the book.
+Note that we will be using `%in%` often throughout this tutorial.
 
 ## Logical operators: `%in%`
 
@@ -1454,7 +1454,7 @@ murders$state[which.max(x)]
 
 ## Basic Plots: `boxplot`
 
-Boxplots will also be described in the Data Visualization part of the book.  They provide a more terse summary than histograms, but they are easier to stack with other boxplots. For example, here we can use them to compare the different regions:
+Boxplots will also be described in the Data Visualization part of the tutorial.  They provide a more terse summary than histograms, but they are easier to stack with other boxplots. For example, here we can use them to compare the different regions:
 \footnotesize
 ```{r eval=FALSE}
 murders$rate <- with(murders, total / population * 100000)
