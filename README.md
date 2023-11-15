@@ -34,16 +34,23 @@ Here is a link for the Pre-meeting:
 
 Google Drive: [https://drive.google.com/drive/folders/1AcNvcHjK-PndRMxE6aVbFDULRYA6jvTu?usp=drive_link](https://drive.google.com/drive/folders/1AcNvcHjK-PndRMxE6aVbFDULRYA6jvTu?usp=drive_link)
 
-## Lecture 1: 
+## Day 1 Lecture: 
 Here is a link for the first lecture: 
 
 Link: [https://rutgers.zoom.us/rec/share/wPwCY6F-xiRG_Wo6oVUFU2FTdLm5cBQ7dWY7kDrT_M3c7VQh35XrDegeMW1ohfqs.8ML67eIlQ773s9Az](https://rutgers.zoom.us/rec/share/wPwCY6F-xiRG_Wo6oVUFU2FTdLm5cBQ7dWY7kDrT_M3c7VQh35XrDegeMW1ohfqs.8ML67eIlQ773s9Az) 
 
 Password: !Xzk7P#f
 
-## Lecture 2: 
+## Day 2 Lecture: 
 Here is a link for the second lecture: 
 
 Link: [https://rutgers.zoom.us/rec/share/nlUtnjZc9eX7z2lLr9Vn2ngxCtc9oUA5T4UXWa-JmN3PM4p9xpSDnXz_sGZT98LM.nKfsWdMbm7Pw7nRE](https://rutgers.zoom.us/rec/share/nlUtnjZc9eX7z2lLr9Vn2ngxCtc9oUA5T4UXWa-JmN3PM4p9xpSDnXz_sGZT98LM.nKfsWdMbm7Pw7nRE)
 
 Password: 6bsZ@iiM 
+
+## Day 3 Lecture: 
+Here is a link for the third lecture: 
+
+Link: [https://rutgers.zoom.us/rec/share/bPLfoc4kwQWvH9iTCfFapqKmHxrEP0twKA1s6V-XqhlqZJZYCuWFeZvBi1Ll-EkJ.wI7v2m2vA-M8CM2O](https://rutgers.zoom.us/rec/share/bPLfoc4kwQWvH9iTCfFapqKmHxrEP0twKA1s6V-XqhlqZJZYCuWFeZvBi1Ll-EkJ.wI7v2m2vA-M8CM2O)
+
+Password: rDPE2^99 
