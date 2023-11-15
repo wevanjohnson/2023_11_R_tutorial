@@ -28,3 +28,19 @@ These are the materials for our Fall 2023 R Tutorial. Hopefully they are helpful
 | Day 4       | Data visualization with ggplot2       |
 | Day 5       | R Packages, bioinformatics, shiny     |
 
+
+## Pre-Meeting: 
+Here is a link for the Pre-meeting: 
+Link to Google Drive: [https://drive.google.com/drive/folders/1AcNvcHjK-PndRMxE6aVbFDULRYA6jvTu?usp=drive_link](https://drive.google.com/drive/folders/1AcNvcHjK-PndRMxE6aVbFDULRYA6jvTu?usp=drive_link)
+
+## Lecture 1: 
+Here is a link for the first lecture: 
+
+Link: [https://rutgers.zoom.us/rec/share/wPwCY6F-xiRG_Wo6oVUFU2FTdLm5cBQ7dWY7kDrT_M3c7VQh35XrDegeMW1ohfqs.8ML67eIlQ773s9Az](https://rutgers.zoom.us/rec/share/wPwCY6F-xiRG_Wo6oVUFU2FTdLm5cBQ7dWY7kDrT_M3c7VQh35XrDegeMW1ohfqs.8ML67eIlQ773s9Az) 
+Password: !Xzk7P#f
+
+## Lecture 2: 
+Here is a link for the second lecture: 
+
+Link: [https://rutgers.zoom.us/rec/share/nlUtnjZc9eX7z2lLr9Vn2ngxCtc9oUA5T4UXWa-JmN3PM4p9xpSDnXz_sGZT98LM.nKfsWdMbm7Pw7nRE](https://rutgers.zoom.us/rec/share/nlUtnjZc9eX7z2lLr9Vn2ngxCtc9oUA5T4UXWa-JmN3PM4p9xpSDnXz_sGZT98LM.nKfsWdMbm7Pw7nRE)
+Password: 6bsZ@iiM 
