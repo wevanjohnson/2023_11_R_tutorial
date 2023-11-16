@@ -1,0 +1,553 @@
+---
+title: "Introduction RNA-sequencing  Data Analysis"
+author: W. Evan Johnson, Ph.D., Professor, Division of Infectious Disease, Director, Center for Data Science, Rutgers University -- New Jersey Medical School
+date: "2023-11-17"
+header-includes:
+   - \usepackage{amsmath}
+output:
+  html_document:
+    code_folding: show
+    toc: true
+    toc_float: true
+    theme: "flatly"
+editor_options: 
+  chunk_output_type: console
+tables: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+setwd("~/Library/CloudStorage/GoogleDrive-wevanjohnson@gmail.com/My Drive/teaching/tutorials/2023_11_R_tutorial/Day 5")
+# create an alignments folder if needed
+if (!file.exists("rna_seq_files/alignments")) {dir.create("rna_seq_files/alignments")}
+
+# Install Rsubread and Rsamtools and call the libraries: You only need to install it once! So I commented out the install--uncomment it for your first run!
+#if (!requireNamespace("BiocManager", quietly = TRUE))
+#    install.packages("BiocManager")
+#BiocManager::install("Rsubread")
+#BiocManager::install("Rsamtools")
+library(Rsubread)
+library(Rsamtools)
+library(SummarizedExperiment)
+library(edgeR)
+library(DESeq2)
+library(ComplexHeatmap)
+library(TBSignatureProfiler)
+library(umap)
+library(tidyverse)
+```
+
+## Objective
+
+* Disclaimer: non-comprehensive introduction to RNA-sequencing 
+* Introduce preprocessing steps
+* Visualization 
+* Analytical methods 
+* Common software tools
+
+## Steps to an RNA-seq Analysis (Literacy)
+1. Preprocessing and QC:
+    + Fasta and Fastq files
+    + FastQC: good vs. bad examples
+    + Visualization
+2. Alignment
+    + Obtaining genome sequence and annotation
+    + Software: Bowtie, TopHat, STAR, Subread/Rsubread
+3. Expression Quantification
+    + Count reads hitting genes, etc
+    + Approaches/software: HT-Seq, STAR, Cufflinks, RPKM FPKM or CPM, RSEM, edgeR, findOverlaps (GenomicRanges). featureCounts (Rsubread)
+4. More visualization
+    + Heatmaps, boxplots, PCA, t-SNE, UMAP
+5. Differential Expression
+    + Batch correction
+    + Overdispersion
+    + General Workflow
+    + Available tools: edgeR, DESeq, Limma/voom
+    + Even more visualization!!
+
+## Illumina Sequencing Workflow
+
+![Figure 1: Illumina Sequencing Workflow](rna_seq_files/figs/illumina.png)
+
+## Sequencing Data Formats {.tabset}
+
+Genome sequcencing data is often stored in one of two formats, FASTA and FASTQ text files. For example a FASTA files looks like the following: 
+
+### FASTA Files
+![Figure 2: FASTA file format](rna_seq_files/figs/fasta.png)
+
+### FASTQ Files
+We can also store confidence or quality scores using a FASTQ format: 
+![Figure 3: FASTQ file format](rna_seq_files/figs/fastq.png)
+
+### FASTQ Encoding
+In order to translate FASTQ quality scores: 
+
+![Figure 4: Fastq Encoding](rna_seq_files/figs/encoding1.png)
+
+### FASTQ Probability
+And now converting to confidence probabilities: 
+
+![Figure 5: Fastq encoding quality scores](rna_seq_files/figs/encoding2.png)
+
+## Preprocessing and QC using FASTQC {.tabset}
+FastQC (http://www.bioinformatics.babraham.ac.uk/projects/fastqc/) provides a simple way to do QC checks on raw sequence data:  
+
+* Import of data from BAM, SAM or FastQ files
+* Quick overview and summary graphs and tables to quickly assess your data
+* Export of results to an HTML based permanent report
+* Offline operation to allow automated generation of reports without running the interactive application
+
+To rund FastQC you can launch the GUI app, or run form the command line: 
+
+```{bash}
+rna_seq_files/FastQC/./fastqc rna_seq_files/reads/R01_10_short500K.fq.gz
+```
+
+<a href=reads/R01_10_short500K_fastqc.html>We can view the results here!</a>
+
+### FastQC Scores
+![Figure 5: Fastqc scores](rna_seq_files/figs/fastqcscore.png)
+
+### FastQC Score Distribution
+![Figure 6: Fastqc score distribution](rna_seq_files/figs/fastqcscoredist.png)
+
+### FastQC Base Distribution
+![Figure 7: Fastqc base distribution](rna_seq_files/figs/fastqcbase.png)
+
+
+### FastQC N Distribution
+![Figure 8: Fastqc N distribution](rna_seq_files/figs/fastqcn.png)
+
+## Alignment to the Reference Genome
+
+Find the genomic Location of origin for the sequencing read. Software: Bowtie2, TopHat, STAR, Subread/Rsubread, many others!
+
+![Figure 9: Sequence read alignment](rna_seq_files/figs/align1.png)
+
+<a href=rna_seq_files/figs/hash_align.pdf>Here is quick tutorial on sequnce aligment.</a>
+
+### Using Rsubread to do Alignment
+The following userguide will be helpful for you: 
+
+http://bioinf.wehi.edu.au/subread-package/SubreadUsersGuide.pdf
+
+
+## Indexing your genome
+
+> Abraham Lincoln: "Give me six hours to chop down a tree and I will spend the first four sharpening the axe." (4 minutes indexing the genome, 2 minutes aligning the reads)
+
+Note that you will rarely do this for human alignment. You will usually download an existing index given to you by others who have already done this work. You will do this often if you are aligning microbial reads, e.g. MTB or some other organism for which others have not already made your index for you.
+
+```{r}
+buildindex(basename="rna_seq_files/genome/ucsc.hg19.chr1_120-150M",reference="rna_seq_files/genome/ucsc.hg19.chr1_120-150M.fasta.gz")
+```
+#### Took me ~0.2 minutes
+
+## Aligning your reads:  
+Note that this outputs results in a .bam file and not a .sam file
+
+```{r, eval=F, include=F}
+align(index="rna_seq_files/genome/ucsc.hg19.chr1_120-150M",readfile1="rna_seq_files/reads/R01_10_short6M.fq.gz",output_file="rna_seq_files/alignments/R01_10_short.bam", nthreads=4) 
+```
+
+```{r eval=F, include=F}
+align(index="rna_seq_files/genome/ucsc.hg19.chr1_120-150M",readfile1="rna_seq_files/reads/R01_10_short500K.fq.gz",output_file="rna_seq_files/alignments/R01_10_short.bam", nthreads=4) 
+```
+
+```{r}
+align(index="rna_seq_files/genome/ucsc.hg19.chr1_120-150M",readfile1="rna_seq_files/reads/R01_10_short500K.fq.gz",output_file="rna_seq_files/alignments/R01_10_short.bam", nthreads=4) 
+```
+
+#### My laptop is an Apple M2, which has 8 cores (used 4 cores), 24GB RAM 
+#### Took 15.7 minutes to align ~60M reads to the 30M bases
+#### Took 0.7 minutes to align ~6.5M reads to the 30M bases
+#### Took 0.3 minutes to align ~500K reads to the 30M bases
+
+## Aligned Sequencing Data Formats (SAM and BAM)
+Note that Rsubread outputs a .bam file (bam = binary alignment map) and not a .sam file (sam = sequence alignment map). Here is some information about a .sam file: 
+
+https://en.wikipedia.org/wiki/SAM_(file_format)
+
+![Figure 10: SAM and BAM file format](rna_seq_files/figs/sambam.png)
+
+https://samtools.github.io/hts-specs/SAMv1.pdf
+
+To convert .sam to .bam or vice versa, a package called Rsamtools. Using Rsamtools, you can convert bam to sam as follows:
+
+```{r}
+asSam("rna_seq_files/alignments/R01_10_short.bam", overwrite=T) 
+
+# To convert to bam:
+#asBam("rna_seq_files/alignments/R01_10_short.bam") 
+```
+
+Makes a system call to the Mac terminal to generate a .sam file
+
+
+## Feature counts
+Now we can count reads hitting genes. Approaches/software: 
+
+* HT-Seq
+* STAR
+* Cufflinks
+* RPKM FPKM or CPM
+* RSEM
+* edgeR
+* findOverlaps (GenomicRanges)
+* featureCounts (Rsubread)
+
+![Figure 11: Feature Counts](rna_seq_files/figs/featurecounts.png)
+
+```{r}
+fCountsList = featureCounts("rna_seq_files/alignments/R01_10_short.bam", annot.ext="rna_seq_files/genome/genes.chr1_120-150M.gtf", isGTFAnnotationFile=TRUE)
+
+featureCounts = cbind(fCountsList$annotation[,1], fCountsList$counts)
+
+write.table(featureCounts, "rna_seq_files/alignments/R01_10_short.features.txt", sep="\t", col.names=FALSE, row.names=FALSE, quote=FALSE)
+
+```
+
+
+## SCTK
+#### Use the Single Cell Toolkit to analyze your RNA-seq data!
+
+* Inputs: RNA-seq, Nanostring, Proteomic, immunological assay data
+* Interactive analyses and visualization of data
+* Save results, figures, etc
+* Sophisticated data structures
+* R/Bioconductor package
+
+![Figure 12: Feature Counts](rna_seq_files/figs/sctk1.png)
+
+![Figure 13: Feature Counts](rna_seq_files/figs/sctk2.png)
+
+```{r, eval=F}
+#install.packages("devtools")
+#devtools::install_github("wevanjohnson/singleCellTK")
+library(singleCellTK)
+singleCellTK()
+
+### open features_combined.txt
+### and meta_data.txt
+```
+
+## Topics in downstream analyses:
+
+### Batch effects {.tabset}
+>Batch Effect: Non-biological variation due to differences in batches of data that confound the relationships between covariates of interest. 
+
+Batch effects are caused by differences in:
+
+* Gene expression profiling platform
+* Lab protocol or experimenter
+* Time of day or processing
+* Atmospheric ozone level (Rhodes et al. 2004)
+
+Batch Effect Examples: 
+
+#### Example #1: Nirtic Oxide 
+Example 1 resulted from an oligonucleotide microarray (Affymetrix HG-U133A) experiment on human lung fibroblast cells (IMR90) designed to reveal whether exposing mammalian cells to nitric oxide (NO) stabilizes mRNAs. Control samples and samples exposed to NO for 1 h were then transcription inhibited for 7.5 h. Microarray data were collected at baseline (0 h, just before transcription inhibition) and at the end of the experiment (after 7.5 h) for both the control and the NO-treated group. It was hypothesized that NO will induce or inhibit the expression of some genes, but would also stabilize the mRNA of many genes, preventing them from being degraded after 7.5 h. 
+
+![Figure 14](rna_seq_files/figs/batch1.png)
+
+#### Example #2: Control Gene Expression
+![Figure 15](rna_seq_files/figs/batch2.png)
+
+#### Example #3: Proteomic markers to predict endometriosis (39 total)
+Single peptide predictors of disease (AUC): 0.82, 0.76, 0.74, 0.74, 0.70 (+12 more >0.6)
+
+Single peptide predictors of batch (AUC): 0.99, 0.94, 0.91, 0.86, 0.86, 0.84, 0.84, 0.84, 0.83, 0.82 (+7 more >0.6)
+
+Predict batch better than disease!
+
+#### ComBat Batch Adjustment
+![Figure 16](rna_seq_files/figs/batchmodel.png)
+![Figure 17](rna_seq_files/figs/batchadjust.png)
+
+### Normalization
+Need to normalize data because of:
+
+* Sequencing depth difference in each RNA sample
+* RNA composition differences
+* Highly expressed genes can consume a substantial proportion of RNA-Seq reads, causing other genes to be under-sampled
+* Different methods
+    + Log counts
+    + Counts per million (CPM and logCPM; RPKM, FPKM)
+    + Trimmed mean of M-values (edgeR/limma)
+    + Median of Ratios method (DESeq)
+    
+![Figure 18](rna_seq_files/figs/norm1.png)
+
+#### Problem of overdispersion: 
+Alignment and feature counting result in discrete count data (i.e. the number of reads to each gene). A first thought might be to use a Poisson distribution to model the counts. However, the Poisson makes a strict mean-variance assumption (i.e. they are the same. Studies have demonstrated that a negative binomial fits data better. 
+
+![Figure 19](rna_seq_files/figs/overdisperse.png)
+
+### Data Structures
+A data structure is a particular way of organizing data in a computer so that it can be used effectively. The idea is to reduce the space and time complexities of different tasks.
+
+Data structures in R programming are tools for holding multiple values, variables, and sometimes functions
+
+Please think very carefully about the way you manage and store your data! This can make your life much easier and make your code and data cleaner and more portable!
+
+There are advanced R data structures, __S3__ and __S4__ class objects, that can facilitate object orientated programming. One useful example of an S4 class data structure is the __SummarizedExperiment__ object. 
+![Figure 20](rna_seq_files/figs/summarizedexperiment.png)
+
+### Visualization and Dimension reduction {.tabset}
+
+#### Read in dataset
+Dataset from: [https://bmcinfectdis.biomedcentral.com/articles/10.1186/s12879-018-3127-4](https://bmcinfectdis.biomedcentral.com/articles/10.1186/s12879-018-3127-4)
+```{r}
+
+counts <- read.table("rna_seq_files/downstream_analysis/features_combined.txt", sep="\t", 
+                     header=T, row.names=1)
+meta_data <- read.table("rna_seq_files/downstream_analysis/meta_data.txt", sep="\t", 
+                     header=T, row.names=1)
+group <- meta_data$Disease
+
+sce_hivtb <- SummarizedExperiment(assays=list(counts=counts),
+                     colData = meta_data)
+
+sce_hivtb <- mkAssay(sce_hivtb, log = TRUE, counts_to_CPM = TRUE)
+assays(sce_hivtb)
+```
+
+#### PCA
+
+```{r}
+set.seed(1)
+pca_out <- prcomp(t(assay(sce_hivtb,"log_counts_cpm")))
+  
+pca_plot <- as.data.frame(pca_out$x)
+pca_plot$Disease <- as.factor(sce_hivtb$Disease)
+
+g <- pca_plot %>% ggplot(aes(x=PC1, y=PC2, color=Disease)) +
+  geom_point(size=1.5) + xlab("PCA1") + ylab("PCA2") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  ggtitle("PCA Plot")
+
+plot(g)
+```
+
+#### UMAP
+
+```{r}
+set.seed(1)
+umap_out <- umap(t(assay(sce_hivtb,"log_counts_cpm")))
+
+umap_plot <- as.data.frame(umap_out$layout)
+umap_plot$Disease <- as.factor(sce_hivtb$Disease)
+
+g <- umap_plot %>% ggplot(aes(x=V1, y=V2, color=Disease)) +
+  geom_point(size=1.5) + xlab("UMAP1") + ylab("UMAP2") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  ggtitle("UMAP Plot")
+
+plot(g)
+```
+
+
+
+### Differential Expression {.tabset}
+
+![Figure 21](rna_seq_files/figs/difex.png)
+
+#### EdgeR Example
+Implements statistical methods for DE analysis based on the negative binomial model:
+
+```{r}
+counts<-counts[which(rowSums(cpm(counts))>1),] #Gene Filtering
+dge <- DGEList(counts=counts, group=group) #Computes library size
+dge <- calcNormFactors(dge) #TMM normalization
+design<-model.matrix(~group)
+dge<-estimateDisp(counts,design) #Estimates common, trended and tagwise dispersion
+```
+
+In negative binomial models, each gene is given a dispersion parameter.  Dispersions control the variances of the gene counts and underestimation will lead to false discovery and overestimation may lead to a lower rate of true discovery
+
+```{r}
+#perform likelihood ratio tests
+fit<-glmFit(counts,design, dispersion=dge$tagwise.dispersion) #fits a negative binomial GLM with the dispersion estimates
+lrt<-glmLRT(fit, coef=2) #Performs likelihood ratio test, comparing the goodness of the fit of the full versus reduced model
+topTags(lrt)
+
+#perform quasi-likelihood F-tests
+#Replace the chisquare approximation to the likelihood ratio statistic with a quasi-likelihood F-test, more control of error rate
+fit<-glmQLFit(counts, design, dispersion=dge$tagwise.dispersion) #use for small dataset, reflects uncertainty in estimating dispersion for each gene, more robust and reliable error rate #control when the number of replicates is small
+qlf<-glmQLFTest(fit, coef=2)
+topTags(qlf)
+
+#For visualization, heatmaps/PCA
+Logcpm<-cpm(counts,log=TRUE)
+```
+
+#### DESeq2 Example
+```{r}
+dds <- DESeqDataSetFromMatrix(countData = counts, colData=meta_data, design=~Disease)
+#colData is a data frame of demographic/phenotypic data
+dds<-dds[rowSums(counts(dds))>1,] #Gene Filtering
+dds<-DESeq(dds) #Performs estimation of size factors,dispersion, and negative binomial GLM f#itting
+res <- results(dds)[order(results(dds)[,6]),]
+res[1:10,]
+``` 
+
+#### Heatmap of DEGs
+
+```{r}
+# Make a Heatmap of DEGs
+mat = as.matrix(assay(sce_hivtb,"log_counts_cpm"))[order(results(dds)[,6])[1:100],] # Using first 1000 genes to simplify
+mat = t(scale(t(mat)))
+
+df=data.frame(Disease=colData(sce_hivtb)$Disease) 
+
+ha = HeatmapAnnotation(df = df, col = list(Disease=c("tb_hiv"="Red","hiv_only"="Blue", "tb_hiv_art"="Green")))
+
+Heatmap(mat,show_row_names=F,show_column_names = F, top_annotation = ha)
+
+```
+
+
+#### Limma Example
+
+* Most similar to microarray data flow
+* Reads counts are converted to log2 counts per million (logCPM) and the mean-variance relationship is modeled with precision weights (voom transform)
+
+
+```{r}
+dge <- DGEList(counts=counts, group=group) #From edgeR, Computes library size
+counts<-counts[which(rowSums(cpm(counts))>1),] #Gene Filtering
+dge <- DGEList(counts=counts, group=group) #Re-compute library size
+dge <- calcNormFactors(dge) #TMM normalization
+design<-model.matrix(~group)
+v<-voom(dge, design) #voom transform to calculate weights to eliminate mean-variance #relationship
+#use usual limma pipelines
+fit<-lmFit(v,design)
+fit<-eBayes(fit)
+topTable(fit, coef=ncol(design))
+```
+
+
+
+### Pathway analysis
+After finding DEGs, look for correlated genes/networks and enriched pathway sets in the gene set using: 
+
+* Weighted gene coexpression network analysis (WGCNA)
+* GSEA, GSVA, EnrichR, many more!!
+* Qiagen Ingenuity Pathway Analysis (IPA)
+
+
+![Figure 22](rna_seq_files/figs/pathway1.png)
+
+![Figure 23](rna_seq_files/figs/pathway2.png)
+
+### TBSignatureProfiler Analysis {.tabset}
+The TBSignatureProfiler was developed in the Johnson Lab in 2021 to profile new and existing TB gene expression signatures [https://bmcinfectdis.biomedcentral.com/articles/10.1186/s12879-020-05598-z](https://bmcinfectdis.biomedcentral.com/articles/10.1186/s12879-020-05598-z)
+
+```{r, message=FALSE, results='hide'}
+sce_hivtb_2 <- sce_hivtb[,colData(sce_hivtb)$Disease != "tb_hiv_art"]
+TBsigs <- TBsignatures[-12] 
+ssgsea_res <- runTBsigProfiler(sce_hivtb_2, useAssay = "log_counts_cpm",
+                                 signatures = TBsigs,
+                                 algorithm = "ssGSEA",
+                                 combineSigAndAlgorithm = TRUE,
+                                 parallel.sz = 1)
+```
+
+#### Signature Heatmap
+
+```{r}
+# Colors for gradient
+signatureHeatmap(ssgsea_res, name = "Heatmap of Signatures (ssGSEA)", 
+                 signatureColNames = names(TBsigs),
+                 annotationColNames = c("Disease"),
+                 scale = TRUE,
+                 split_heatmap = "none",
+                 showColumnNames = FALSE)
+```
+
+#### Signature Boxplots
+
+```{r , fig.width=12, fig.height=9}
+signatureBoxplot(ssgsea_res, name="ssGSEA", 
+                 signatureColNames = names(TBsigs),
+                 annotationColName = c("Disease"))
+```
+
+#### Boxplots Single {.tabset}
+
+```{r , results="asis"}
+for (i in names(TBsigs)){
+
+  cat("#####" , i, "\n")
+
+  print(signatureBoxplot(ssgsea_res, name=i, signatureColNames = i,
+                 annotationColName = c("Disease")))
+  
+  cat("\n\n")
+}
+
+```
+
+#### Signature Gene Heatmaps {.tabset}
+
+```{r , results="asis"}
+for (i in names(TBsigs)){
+
+  cat("#####" , i, "\n")
+
+  signatureGeneHeatmap(ssgsea_res, useAssay="log_counts_cpm", 
+                     TBsigs[[i]],
+                     name = i, signatureColNames = NULL, 
+                    annotationColNames = c(i,"Disease"),
+                     showColumnNames = FALSE)
+  
+  cat("\n\n")
+}
+```
+
+#### AUC Table
+```{r, message = FALSE}
+set.seed(0)
+tableAUC(ssgsea_res, 
+         annotationColName = "Disease", 
+         signatureColNames = names(TBsigs),
+         num.boot = 100, 
+         pb.show = FALSE)
+```
+
+#### AUC Boxplots
+
+```{r, message = FALSE}
+set.seed(0)
+compareBoxplots(ssgsea_res, annotationColName = "Disease",
+                signatureColNames = names(TBsigs),
+                pb.show = FALSE, fill.col = "blue",
+                rotateLabels = TRUE)
+```
+
+#### ROC plots
+ 
+```{r, message = FALSE, fig.height = 9, fig.width = 12}
+signatureROCplot_CI(inputData = ssgsea_res,
+                   signatureColNames = names(TBsigs),
+                   annotationColName = "Disease")
+
+```
+
+#### Separate ROC plots {.tabset}
+ 
+```{r, results = 'asis', message = FALSE}
+for (i in names(TBsigs)){
+  
+  cat("#####" , i, "\n")
+  
+  print(signatureROCplot_CI(inputData = ssgsea_res, 
+                   signatureColNames = i,
+                   annotationColName = "Disease",
+                   name = paste("ROC plot,", i, sep = " ")))
+  
+  cat("\n\n")
+}
+```
+
