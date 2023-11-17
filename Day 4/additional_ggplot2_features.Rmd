@@ -788,8 +788,8 @@ heights %>%
 The geometry for boxplot is `geom_boxplot`. As discussed, boxplots are useful for comparing distributions. For example, below are the previously shown heights for women, but compared to men. For this geometry, we need arguments `x` as the categories, and `y` as the values. 
 
 ```{r female-male-boxplots-geom, echo=FALSE, out.width="60%"}
-heights %>% ggplot(aes(sex, height)) +
-  geom_boxplot()
+heights %>% ggplot(aes(sex, height, fill=sex)) +
+  geom_violin()
 ```
 
 ## QQ-plots 
