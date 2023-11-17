@@ -54,3 +54,18 @@ Here is a link for the third lecture:
 Link: [https://rutgers.zoom.us/rec/share/bPLfoc4kwQWvH9iTCfFapqKmHxrEP0twKA1s6V-XqhlqZJZYCuWFeZvBi1Ll-EkJ.wI7v2m2vA-M8CM2O](https://rutgers.zoom.us/rec/share/bPLfoc4kwQWvH9iTCfFapqKmHxrEP0twKA1s6V-XqhlqZJZYCuWFeZvBi1Ll-EkJ.wI7v2m2vA-M8CM2O)
 
 Password: rDPE2^99 
+
+## Day 4 Lecture: 
+Here is a link for the fourth lecture: 
+
+Link: [https://rutgers.zoom.us/rec/share/Y8iIUJM9hPqG0q1qwMx9Ck2pzFwG0cMmTaPt4vifWOl3_xd_r76mmq7tTOvK74b8.mE4IkFfJ0K9Yv_Lc](https://rutgers.zoom.us/rec/share/Y8iIUJM9hPqG0q1qwMx9Ck2pzFwG0cMmTaPt4vifWOl3_xd_r76mmq7tTOvK74b8.mE4IkFfJ0K9Yv_Lc) 
+
+Password: bFJ3*M1@ 
+
+## Day 5 Lecture: 
+Here is a link for the fifth lecture: 
+
+[https://rutgers.zoom.us/rec/share/0K5K5z33JhvNyFuaTUcqTI7zfUAOZKDa5znb5BWuEyawZJ7SiHggwpS-I2bsHPll.G5IArloaJbKbJnsD](https://rutgers.zoom.us/rec/share/0K5K5z33JhvNyFuaTUcqTI7zfUAOZKDa5znb5BWuEyawZJ7SiHggwpS-I2bsHPll.G5IArloaJbKbJnsD) 
+
+Password: A&BjA1Wn 
+
