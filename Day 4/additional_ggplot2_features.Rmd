@@ -685,21 +685,19 @@ c. As seen in question 10, the normal approximation tends to underestimate the e
 d. As seen in question 10, the normal approximation tends to overestimate the extreme values. It's possible that there are fewer seven footers than we predicted.
 -->
 
-## ggplot2 geometries {#other-geometries}
-
-In Chapter \@ref(ggplot2), we introduced the `ggplot1` package for data visualization. Here we demonstrate how to generate plots related to distributions, specifically the plots shown earlier in this chapter.
-
-### Barplots
+## Barplots
 
 To generate a barplot we can use the `geom_bar` geometry. The default is to count the number of each category and draw a bar. Here is the plot for the regions of the US.
 
-```{r barplot-geom}
+```{r barplot-geom, out.width="60%"}
 murders %>% ggplot(aes(region)) + geom_bar()
 ```
 
+## Barplots
+
 We often already have a table with a distribution that we want to present as a barplot. Here is an example of such a table:
 
-```{r}
+```{r, out.width="60%"}
 data(murders)
 tab <- murders %>% 
   count(region) %>% 
@@ -707,41 +705,46 @@ tab <- murders %>%
 tab
 ```
 
+## Barplots
 We no longer want `geom_bar` to count, but rather just plot a bar to the height provided by the `proportion` variable. For this we need to provide `x` (the categories) and `y` (the values) and use the `stat="identity"` option. 
 
-```{r region-freq-barplot}
-tab %>% ggplot(aes(region, proportion)) + geom_bar(stat = "identity")
+```{r region-freq-barplot, out.width="60%"}
+tab %>% ggplot(aes(region, proportion)) + 
+  geom_bar(stat = "identity")
 ```
 
-### Histograms 
+## Histograms 
 
 To generate histograms we use `geom_histogram`. By looking at the help file for this function, we learn that the only required argument is `x`, the variable for which we will construct a histogram. We dropped the `x` because we know it is the first argument.
 The code looks like this:
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, out.width="60%"}
 heights %>% 
   filter(sex == "Female") %>% 
   ggplot(aes(height)) + 
   geom_histogram()
 ```
 
+## Histograms 
 If we run the code above, it gives us a message:
 
 > `stat_bin()` using `bins = 30`. Pick better value with
 `binwidth`.
  
+## Histograms 
 We previously used a bin size of 1 inch, so the code looks like this:
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, out.width="60%"}
 heights %>% 
   filter(sex == "Female") %>% 
   ggplot(aes(height)) + 
   geom_histogram(binwidth = 1)
 ```
 
+## Histograms 
 Finally, if for aesthetic reasons we want to add color, we use the arguments described in the help file. We also add labels and a title:
-
-```{r height-histogram-geom}
+\footnotesize
+```{r height-histogram-geom, out.width="50%"}
 heights %>% 
   filter(sex == "Female") %>% 
   ggplot(aes(height)) +
@@ -750,48 +753,50 @@ heights %>%
   ggtitle("Histogram")
 ```
 
-### Density plots
+## Density plots
 
 To create a smooth density, we use the `geom_density`. To make a smooth density plot with the data previously shown as a histogram we can use this code:
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, out.width="60%"}
 heights %>% 
   filter(sex == "Female") %>%
   ggplot(aes(height)) +
   geom_density()
 ```
 
+## Density plots
 To fill in with color, we can use the `fill` argument.
 
-```{r ggplot-density}
+```{r ggplot-density, out.width="60%"}
 heights %>% 
   filter(sex == "Female") %>%
   ggplot(aes(height)) +
   geom_density(fill="blue")
 ```
 
+## Density plots
 To change the smoothness of the density, we use the `adjust` argument to multiply the default value by that `adjust`. For example, if we want the bandwidth to be twice as big we use:
 
-```{r eval = FALSE}
+```{r eval = FALSE, out.width="60%"}
 heights %>% 
   filter(sex == "Female") + 
   geom_density(fill="blue", adjust = 2)
 ```
 
-### Boxplots
+## Boxplots
 
 The geometry for boxplot is `geom_boxplot`. As discussed, boxplots are useful for comparing distributions. For example, below are the previously shown heights for women, but compared to men. For this geometry, we need arguments `x` as the categories, and `y` as the values. 
 
-```{r female-male-boxplots-geom, echo=FALSE}
+```{r female-male-boxplots-geom, echo=FALSE, out.width="60%"}
 heights %>% ggplot(aes(sex, height)) +
   geom_boxplot()
 ```
 
-### QQ-plots 
+## QQ-plots 
 
 For qq-plots we use the `geom_qq` geometry. From the help file, we learn that we need to specify the `sample` (we will learn about samples in a later chapter). Here is the qqplot for men heights.
 
-```{r ggplot-qq}
+```{r ggplot-qq, out.width="60%"}
 heights %>% filter(sex=="Male") %>%
   ggplot(aes(sample = height)) +
   geom_qq()
@@ -799,7 +804,7 @@ heights %>% filter(sex=="Male") %>%
 
 By default, the sample variable is compared to a normal distribution with average 0 and standard deviation 1. To change this, we use the `dparams` arguments based on the help file. Adding an identity line is as simple as assigning another layer. For straight lines, we use the `geom_abline` function. The default line is the identity line (slope = 1, intercept = 0).
 
-```{r  ggplot-qq-dparams, eval=FALSE}
+```{r  ggplot-qq-dparams, eval=FALSE, out.width="60%"}
 params <- heights %>% filter(sex=="Male") %>%
   summarize(mean = mean(height), sd = sd(height))
 
@@ -811,7 +816,7 @@ heights %>% filter(sex=="Male") %>%
 
 Another option here is to scale the data first and then make a qqplot against the standard normal. 
 
-```{r ggplot-qq-standard-units, eval=FALSE}
+```{r ggplot-qq-standard-units, eval=FALSE, out.width="60%"}
 heights %>% 
   filter(sex=="Male") %>%
   ggplot(aes(sample = scale(height))) + 
@@ -819,7 +824,7 @@ heights %>%
   geom_abline()
 ```
 
-### Images
+## Images
 
 Images were not needed for the concepts described in this chapter, but we will use images in Section \@ref(vaccines), so we introduce the two geometries used to create images: __geom_tile__ and __geom_raster__. They behave similarly; to see how they differ, please consult the help file. To create an image in `ggplot1` we need a data frame with the x and y coordinates as well as the values associated with each of these. Here is a data frame.
 
@@ -828,16 +833,18 @@ x <- expand.grid(x = 1:12, y = 1:10) %>%
   mutate(z = 1:120) 
 ```
 
+## Images
 Note that this is the tidy version of a matrix, `matrix(1:120, 12, 10)`. To plot the image we use the following code:
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, out.width="60%"}
 x %>% ggplot(aes(x, y, fill = z)) + 
   geom_raster()
 ```
 
+## Images
 With these images you will often want to change the color scale. This can be done through the `scale_fill_gradientn` layer.
 
-```{r ggplot2-image-new-colors}
+```{r ggplot2-image-new-colors, out.width="60%"}
 x %>% ggplot(aes(x, y, fill = z)) + 
   geom_raster() + 
   scale_fill_gradientn(colors =  terrain.colors(10))
@@ -845,64 +852,72 @@ x %>% ggplot(aes(x, y, fill = z)) +
 
 
 
-### Quick plots
+## Quick plots
 
 In Section \@ref(qplot) we introduced `qplot` as a useful function  when we need to make a quick scatterplot. We can also use `qplot` to make histograms, density plots, boxplot, qqplots and more. Although it does not provide the level of control of `ggplot`, `qplot` is definitely useful as it permits us to make a plot with a short snippet of code. 
 
+## Quick plots
 Suppose we have the female heights in an object `x`:
 
-```{r}
+```{r, out.width="60%"}
 x <- heights %>% 
   filter(sex=="Male") %>% 
   pull(height)
 ```
 
+## Quick plots
 To make a quick histogram we can use:
 
-```{r qplot-example-1, warning=FALSE, message=FALSE, eval=FALSE}
+```{r qplot-example-1, warning=FALSE, message=FALSE, eval=FALSE, out.width="60%"}
 qplot(x)
 ```
 
+## Quick plots
 The function guesses that we want to make a histogram because we only supplied one variable. In Section \@ref(qplot) we saw that if we supply `qplot` two variables, it automatically makes a scatterplot. 
 
 To make a quick qqplot you have to use the `sample` argument. Note that we can add layers just as we do with `ggplot`.
 
-```{r qplot-example-2, eval=FALSE}
+```{r qplot-example-2, eval=FALSE, out.width="60%"}
 qplot(sample = scale(x)) + geom_abline()
 ```
 
 
+## Quick plots
 If we supply a factor and a numeric vector, we obtain a plot like the one below. Note that in the code below we are using the `data` argument. Because the data frame is not the first argument in `qplot`, we have to use the dot operator.
 
-```{r qplot-example-3, eval=FALSE}
+```{r qplot-example-3, eval=FALSE, out.width="60%"}
 heights %>% qplot(sex, height, data = .)
 ```
 
+## Quick plots
 We can also select a specific geometry by using the `geom` argument. So to convert the plot above to a boxplot, we use the following code:
 
-```{r qplot-example-4, eval=FALSE}
+```{r qplot-example-4, eval=FALSE, out.width="60%"}
 heights %>% qplot(sex, height, data = ., geom = "boxplot")
 ```
 
+## Quick plots
 We can also use the `geom` argument to generate a density plot instead of a histogram:
 
-```{r qplot-example-5, eval=FALSE}
+```{r qplot-example-5, eval=FALSE, out.width="60%"}
 qplot(x, geom = "density")
 ```
 
+## Quick plots
 Although not as much as with `ggplot`, we do have some flexibility to improve the results of `qplot`. Looking at the help file we see several ways in which we can improve the look of the histogram above. Here is an example:
 
-```{r qplot-example-6}
+```{r qplot-example-6, out.width="60%"}
 qplot(x, bins=15, color = I("black"), xlab = "Population")
 ```
 
+## Quick plots
 **Technical note**: The reason we use `I("black")` is because we want `qplot` to treat `"black"` as a character rather than convert it to a factor, which is the default behavior within `aes`, which is internally called here. In general, the function `I` is used in R to say "keep it as it is".
 
 
 
 
 ## Exercises 
-
+<!--
 
 1\. Now we are going to use the `geom_histogram` function to make a histogram of the heights in the `height` data frame. When reading the documentation for this function we see that it requires just one mapping, the values to be used for the histogram. Make a histogram of all the plots. 
 
@@ -946,7 +961,7 @@ However, here the second density is drawn over the other. We can make the curves
 
 
     
-
+-->
 
 ## Session Info
 \tiny
