@@ -1,5 +1,5 @@
 ---
-title: "Communicating Science using Rmarkown"
+title: "Communicating Science using R Markown"
 author: | 
   | W. Evan Johnson, Ph.D.
   | Professor, Division of Infectious Disease
@@ -73,7 +73,7 @@ Keep the following points in mind:
 3. Use high-resolution graphics
 4. Format your graphics and include labels, legends, and captions
 
-## Reproducible Reports (RMarkdown)
+## Reproducible Reports (R markdown)
 
 The final product of a data analysis project is often a report: scientific publications, news articles, an analysis report for your company, or lecture notes for a class. \vskip .1 in
 
@@ -89,32 +89,27 @@ Situations like these are common for a data scientist.
 
 ## R markdown
 
-R markdown is a format for **literate programming** documents. \vskip .2in
+R markdown is a format for **literate programming** documents. Literate programming weaves instructions, documentation, equations, and detailed comments among executable code.
 
-It is based on __markdown__, a markup language that is widely used to generate html pages. \vskip .2in 
-
-You can learn more about markdown here: [click here](https://www.markdowntutorial.com/)
+It is based on __markdown__, a markup language that is widely used to generate html pages. You can learn more about markdown with the following tutorial: [**click here**](https://www.markdowntutorial.com/)
 
 ## R markdown
 
-Literate programming weaves instructions, documentation, and detailed comments in between machine executable code. \vskip .1in 
+You can start an R markdown document in RStudio by clicking on __File__, __New File__, then __R markdown__. You will then be asked for a title and author. 
 
- With R markdown, you need to __compile__ the document into the final report. \vskip .1in 
- 
-You can start an R markdown document in RStudio by clicking on __File__, __New File__, then __R Markdown__. You will then be asked for a title and author. \vskip .1in 
+Once you gain experience with R markdown, you will be able to do this without the template and can simply start from a blank template.
 
-Final reports can be to be in: HTML, PDF, Microsoft Word, or presentation formats. 
+As a convention, we use the `.Rmd` suffix for R markdown files 
 
-## R markdown
-As a convention, we use the `.Rmd` suffix for these files.\vskip .2in 
+## Compiling the document using `knitR`
 
-Once you gain experience with R Markdown, you will be able to do this without the template and can simply start from a blank template.\vskip .2in 
+With R markdown, you need to __compile__ the document into the final report. We use the `knitR` package to to do this. The specific function used to compile is the `knit` function, which takes a filename as input. 
 
-In the template, you will see several things to note (in the following slides).
+RStudio provides a `Knit` button that makes it easy and convenient to compile the document.
 
 ## The Header
 
-At the top you see:
+At the top of the document is the R markdown header:
 ```{r eval=F}
 ---
 title: "Nanostring Analysis"
@@ -124,10 +119,10 @@ output: html_document:
 ---
 ```
 
-One parameter that we will highlight is `output`. By changing this to, say, `pdf_document`, we can control the type of output that is produced.  
+R markdown reports can be to be in HTML, PDF, Microsoft Word, or presentation formats. By changing the `output` to, for example `pdf_document` or `word_document`, we can control the type of output that is produced.  
 
 ## The Header
-
+Other output options include code folding, themes, etc.:
 ```{r eval=F}
 ---
 title: "Nanostring Analysis"
@@ -144,7 +139,7 @@ editor_options:
 ---
 ```
 
-## R code chunks
+## R Code Chunks
 
 In various places in the document, we see something like this:
 ````{verbatim}
@@ -153,30 +148,11 @@ summary(pressure)
 ```
 ````
 
-These are the code chunks. When you compile the document, the R code inside the chunk, in this case `summary(pressure)`, will be evaluated and the result included in that position in the final document. 
+These are the **code chunks**. When you compile the document, the R code inside the chunk, in this case `summary(pressure)`, will be evaluated and the result included in that position in the final document. 
 
-## R code chunks
+To add your own R chunks, you can type the characters above quickly with the key binding command-option-I on the Mac and Ctrl-Alt-I on Windows.
 
-To add your own R chunks, you can type the characters above quickly with the key binding command-option-I on the Mac and Ctrl-Alt-I on Windows. \vskip .2in
-
-This applies to plots as well; the plot will be placed in that position. We can write something like this:
-````{verbatim}
-```{r}
-plot(pressure)
-```
-````
-
-## R code chunks
-
-By default, the code will show up as well. To avoid having the code show up, you can use an argument. To avoid this, you can use the argument `echo=FALSE`. For example:
-
-````{verbatim}
-```{r, echo=FALSE}
-summary(pressure)
-```
-````
-
-## R code chunks
+## R Code Chunks
 
 Its a good habit to adding a label to the R code chunks. This will be very useful when debugging, among other situations. You do this by adding a descriptive word like this:
 
@@ -186,7 +162,42 @@ summary(pressure)
 ```
 ````
 
-## Global options
+## R Code Chunks
+
+We can also add plots to our report:
+````{verbatim}
+```{r, out.width = '60%', fig.align = 'center'}
+plot(pressure)
+```
+````
+
+```{r, echo=F, out.width = '60%', fig.align = 'center'}
+plot(pressure)
+```
+
+The chunk options (comma sparated) `out.width` and `fig.align` adjust the size and loction of the figure 
+
+
+## R Code Chunks
+
+By default, the code will show up as well. To avoid having the code show up, you can use an argument. To avoid this, you can use the argument `echo=FALSE`. For example:
+
+````{verbatim}
+```{r, echo=FALSE}
+summary(pressure)
+```
+````
+
+If you want to include the code in the document, but not run the code and/or include results, you can use the argument `eval=FALSE`:
+
+````{verbatim}
+```{r, eval=FALSE}
+# You can install the tidyverse using:
+install.packages(tidyverse)
+```
+````
+
+## R Code Chunks (global `knitr` options)
 One of the R chunks may contain a complex looking call:
 
 ````{verbatim}
@@ -195,15 +206,80 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 ````
 
-## knitR
+The `include=FALSE` option in the chunk call will tell the system to run the R code, but not include it in the html/pdf/word report. 
 
-We use the __knitR__ package to compile R markdown documents. The specific function used to compile is the `knit` function, which takes a filename as input.  RStudio provides a button that makes it easier to compile the document.
+The R code in the chunk sets the `knitr` default to `echo=TRUE` in the call for any R chunks following this one.  
+
+## Other Code Chunks
+
+`knitr` can execute code in many languages besides R:
+
+````{verbatim}
+```{python}
+x = [2, 1, 3]
+print(x[0],"Hello Python!")
+```
+````
+
+```{python, echo=F}
+x = [2, 1, 3]
+print(x[0],"Hello Python!")
+```
+
+Some of the available language engines include: Python, SQL, Bash, Rcpp, Stan, JavaScript, and CSS.
 
 
-## Other options
-We will explore other R Markdown options:  headers, tabsets, and latex equations in class and in your Exercises. 
+
+
+## \LaTeX\ Equations
+One exciting feature about R markdown is that it allows you to include \LaTeX\ equations to be rendered in html, pdf, or Word. 
+
+For example, to show the probability under the normal curve in the interval $(a,b)$, you can use the \LaTeX\ code:
+\footnotesize
+````{verbatim}
+\mbox{Pr}(a < x < b) = 
+  \int_a^b \frac{1}{\sqrt{2\pi}\sigma} 
+  e^{-\frac{1}{2}\left( \frac{x-\mu}{\sigma} \right)^2} \, dx
+```
+
+\normalsize 
+This will be rendered by `knitr` as:
+
+$$\mbox{Pr}(a < x < b) = \int_a^b \frac{1}{\sqrt{2\pi}\sigma} e^{-\frac{1}{2}\left( \frac{x-\mu}{\sigma} \right)^2} \, dx$$
+
+
+## Other Options (tabsets)
+One very useful tool in Markdown is to add tabs to the html document: 
+
+````{verbatim}
+## This is a header {.tabset}
+### This is Tab 1
+### This is Tab 2
+## This is a new header (not in the tabs)
+````
+
+The `{.tabset}` option will make all lower level subheadings tabs in the html. The next same or higher level header will break out of the tabset.  
+
+## Other Options (tabsets)
+__Pro tip:__ tabs can be generated dynamically:
+````{verbatim}
+## My Header {.tabset}
+```{r, results = 'asis'}
+n <- 10
+for (i in 1:n){
+  cat("###" , "Tab", i, "\n")
+    print(i)
+  cat("\n\n")
+}
+```
+````
+
+
+
+## Other Options
+We will explore other R markdown options:  headers, tabsets, and \LaTeX\ equations in class and in your Exercises. 
 \vskip .2 in
-\underline{Note:} From now on, all R-based Exercises should preferably be done using an R Markdown document. Your document should include headers, descriptive text, R code, and  plots/figures! 
+\underline{Note:} From now on, all R-based Exercises should preferably be done using an R markdown document. Your document should include headers, descriptive text, equations, R code, and  plots/figures! 
 
  
 ## More on R markdown
@@ -215,7 +291,7 @@ There is a lot more you can do with R markdown. We highly recommend you continue
 3. The knitR book: https://yihui.name/knitr/
 
 ## Exercises
-R Markdown is a powerful tool for literate prgramming. To gain more practice, recreate the .Rmd file for
+R markdown is a powerful tool for literate prgramming. To gain more practice, recreate the .Rmd file for
 the example file: "Rmarkdown_example.html."
 
 
