@@ -3,6 +3,16 @@
 */*.log
 */*/*.log
 
+## RNA_seq files to ignore
+*/rna_seq_files/reads/R01_10_short6M.fq.gz
+*/rna_seq_files/alignments/*
+*/rna_seq_files/genome/*.array
+*/rna_seq_files/genome/*.tab
+*/rna_seq_files/genome/*.files
+*/rna_seq_files/genome/*.log
+*/rna_seq_files/genome/*.reads
+*/rna_seq_files/reads/R01_10_short6M.fq.gz
+
 ## R History files
 .Rhistory
 */.Rhistory
