@@ -69,3 +69,9 @@ Here is a link for the fifth lecture:
 
 Password: A&BjA1Wn 
 
+## First Follow-up meeting (11/30/23): 
+Here is the link for the first follow-up meeting on 11/30/23: 
+
+[https://rutgers.zoom.us/rec/share/PQE72M6zX9btYHtTsTLOu_3oado1Mv7tz6TgW_nIKleifsedCHD45oI3FO1HkMQ8.MQ1hJVRz-EBFB5lF](https://rutgers.zoom.us/rec/share/PQE72M6zX9btYHtTsTLOu_3oado1Mv7tz6TgW_nIKleifsedCHD45oI3FO1HkMQ8.MQ1hJVRz-EBFB5lF) 
+
+Password: .^yzj2iA 
